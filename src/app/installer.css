@@ -1,0 +1,186 @@
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden; /* ❗ Skryje scrollbar */
+    background: url("assets/bg.png") no-repeat center center;
+    background-size: cover;
+    -webkit-user-select: none;
+    -webkit-app-region: drag;
+    font-family: 'Inter', sans-serif;
+    font-size: 18px;
+    font-weight: 500; /* nebo 700 pro ještě výraznější */
+    color: white;
+}
+
+/* Wrapper pro vycentrování formuláře */
+.installer-wrapper {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Samotný box s formulářem */
+.installer-container {
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    width: 400px;
+    -webkit-app-region: no-drag;
+    position: relative;
+}
+
+.container-box {
+    width: 400px;
+    margin: 60px auto;
+    background: white;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    -webkit-app-region: no-drag;
+    position: relative;
+}
+
+.close-btn {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background: rgba(255, 255, 255, 0.6);
+    font-size: 12px;
+    padding: 2px 6px;
+    background: rgba(255, 255, 255, 0.6);
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    cursor: pointer;
+    -webkit-app-region: no-drag;
+    transition: background-color 0.4s ease, border-color 0.4s ease, color 0.4s ease;
+}
+
+.close-btn:hover {
+    background: rgba(255, 61, 0, 0.6);
+    border-color: rgba(255, 61, 0, 0.6);
+    color: white;
+}
+
+.custom-input {
+    height: 28px;
+    font-size: 14px;
+    padding: 2px 8px;
+    margin: 10px 0;
+    background-color: rgba(255, 255, 255, 0.4);
+    line-height: 1;
+}
+
+button.btn.select-folder-btn {
+    height: 28px;
+    font-size: 13px;
+    padding: 2px 10px;
+    margin: 10px 0;
+    border: 1px solid #aaa;
+    background-color: rgba(255, 255, 255, 0.6);
+    white-space: nowrap;
+    line-height: 1;
+    transition: background-color 0.4s ease, border-color 0.4s ease, color 0.4s ease;
+}
+
+button.btn.select-folder-btn:hover {
+    background: rgba(255, 61, 0, 0.6);
+    border-color: rgba(255, 61, 0, 0.6);
+}
+
+.custom-input::placeholder {
+    color: #666;
+    font-weight: 400;
+}
+
+.select-folder-btn {
+    font-size: 12px;
+    padding: 4px 10px;
+    background-color: rgba(255, 255, 255, 0.85);
+    border: 1px solid #aaa;
+    border-radius: 4px;
+    -webkit-app-region: no-drag;
+}
+
+button.btn {
+    font-size: 14px;
+    height: 34px;
+    padding: 4px 10px;
+    -webkit-app-region: no-drag;
+}
+
+.input-error {
+    border: 1px solid red !important;
+    background-color: rgba(255, 0, 0, 0.05);
+}
+
+.custom-input::placeholder {
+    color: rgba(0, 0, 0, 0.8); /* méně průhledná černá */
+    font-weight: 500;
+}
+
+#statusText {
+    font-size: 12px;
+}
+
+#progressBar {
+    background-color: #ff3d00 !important; /* sytá oranžovo-červená */
+    color: #ffffcc; /* bledě žlutý text */
+    font-weight: bold;
+    font-size: 14px;
+    text-shadow: 1px 1px 2px black;
+    border-radius: 6px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 10px #ff3d00,
+    0 0 30px #ff0000,
+    0 0 50px #ff2200;
+    animation: intenseGlow 2s ease-in-out infinite;
+    transition: width 0.4s ease;
+}
+
+@keyframes intenseGlow {
+    0% {
+        box-shadow: 0 0 12px #ff3d00,
+        0 0 24px #ff0000,
+        0 0 48px #ff2200;
+    }
+    50% {
+        box-shadow: 0 0 30px #ff3d00,
+        0 0 60px #ff1100,
+        0 0 90px #ff4400;
+    }
+    100% {
+        box-shadow: 0 0 12px #ff3d00,
+        0 0 24px #ff0000,
+        0 0 48px #ff2200;
+    }
+}
+
+#progressBar.progress-bar-striped.progress-bar-animated {
+    background-image: linear-gradient(
+            45deg,
+            rgba(255, 140, 70, 0.3) 25%,
+            transparent 25%,
+            transparent 50%,
+            rgba(255, 140, 70, 0.3) 50%,
+            rgba(255, 140, 70, 0.3) 75%,
+            transparent 75%,
+            transparent
+    );
+    background-size: 1rem 1rem;
+}
+
+#progressWrapper .progress {
+    height: 22px;
+}
+
+#progressWrapper .progress-bar {
+    width: 0;
+}

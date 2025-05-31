@@ -1,0 +1,33 @@
+{
+  "name": "electron-installer",
+  "version": "1.0.0",
+  "main": "dist/main.js",
+  "scripts": {
+    "build": "tsc && del /S /Q dist\\app && xcopy /E /I /Y src\\app dist\\app",
+    "start": "npm run build && electron .",
+    "dist": "npm run build && electron-builder"
+  },
+  "build": {
+    "appId": "com.tvoje.firma.installer",
+    "productName": "dp-installer",
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "dist/**/*",
+      "node_modules/**/*",
+      "package.json"
+    ],
+    "win": {
+      "target": "portable"
+    }
+  },
+  "devDependencies": {
+    "electron": "^28.0.0",
+    "electron-builder": "^26.0.12",
+    "typescript": "^5.4.0"
+  },
+  "dependencies": {
+    "extract-zip": "^2.0.1"
+  }
+}
