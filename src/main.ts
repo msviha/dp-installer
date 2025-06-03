@@ -1,6 +1,8 @@
 import {app, BrowserWindow, ipcMain, dialog} from 'electron';
 import * as https from 'https';
 import * as fs from 'fs';
+
+const createDesktopShortcut = require('create-desktop-shortcuts');
 import * as path from 'path';
 import extract from 'extract-zip';
 
@@ -13,7 +15,7 @@ function createWindow() {
         frame: false,
         resizable: false,
         webPreferences: {
-            preload: path.join(__dirname, 'renderer.js'), // ✅ bude fungovat
+            preload: path.join(__dirname, 'renderer.js'),
             contextIsolation: false,
             nodeIntegration: true
         }
@@ -91,3 +93,34 @@ ipcMain.handle('download-and-unzip', async (event, zipUrl: string, targetDir: st
     });
 });
 
+ipcMain.handle('read-file', async (event, path: string) => {
+    return fs.readFileSync(path, 'utf8');
+});
+
+ipcMain.handle('save-file', (event, path: string, content: string): void => {
+    fs.writeFileSync(path, content, 'utf8');
+})
+
+ipcMain.handle('create-shortcuts', async (event, folder: string) => {
+    const orionExePath = path.join(folder, 'Ultima Online DP', 'Orion Launcher', 'OrionLauncher64.exe');
+    createDesktopShortcut({
+        windows: {
+            filePath: orionExePath,
+            name: 'Orion Launcher (DP)',
+            comment: 'Spustit Dark Paradise přes Orion Launcher',
+            icon: orionExePath,
+            workingDirectory: path.dirname(orionExePath),
+        }
+    });
+    const uoamExePath = path.join(folder, 'Ultima Online DP', 'uoam_Orion.exe');
+    createDesktopShortcut({
+        windows: {
+            filePath: uoamExePath,
+            name: 'UOAM (DP)',
+            comment: 'Spustit UOAM pro Orion',
+            args: ['-q'],
+            icon: uoamExePath,
+            workingDirectory: path.dirname(uoamExePath),
+        }
+    });
+});

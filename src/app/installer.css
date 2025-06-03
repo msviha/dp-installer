@@ -3,14 +3,14 @@ html, body {
     padding: 0;
     width: 100vw;
     height: 100vh;
-    overflow: hidden; /* ❗ Skryje scrollbar */
+    overflow: hidden;
     background: url("assets/bg.png") no-repeat center center;
     background-size: cover;
     -webkit-user-select: none;
     -webkit-app-region: drag;
     font-family: 'Inter', sans-serif;
     font-size: 18px;
-    font-weight: 500; /* nebo 700 pro ještě výraznější */
+    font-weight: 500;
     color: white;
 }
 
@@ -26,12 +26,16 @@ html, body {
 /* Samotný box s formulářem */
 .installer-container {
     background-color: rgba(255, 255, 255, 0.1);
-    padding: 30px;
+    padding: 15px;
     border-radius: 12px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-    width: 400px;
+    width: 550px;
     -webkit-app-region: no-drag;
     position: relative;
+}
+
+#install-form {
+    padding-top: 25px;
 }
 
 .container-box {
@@ -52,7 +56,6 @@ html, body {
     background: rgba(255, 255, 255, 0.6);
     font-size: 12px;
     padding: 2px 6px;
-    background: rgba(255, 255, 255, 0.6);
     border: 1px solid #ccc;
     border-radius: 6px;
     cursor: pointer;
@@ -183,4 +186,13 @@ button.btn {
 
 #progressWrapper .progress-bar {
     width: 0;
+}
+
+.install-step-buttons {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+h4 {
+    font-size: 18px;
 }
