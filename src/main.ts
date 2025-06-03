@@ -118,7 +118,7 @@ ipcMain.handle('create-shortcuts', async (event, folder: string) => {
             filePath: uoamExePath,
             name: 'UOAM (DP)',
             comment: 'Spustit UOAM pro Orion',
-            args: ['-q'],
+            args: '-q',
             icon: uoamExePath,
             workingDirectory: path.dirname(uoamExePath),
         }
