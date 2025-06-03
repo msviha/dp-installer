@@ -67,7 +67,9 @@ export async function handleInstall(): Promise<void> {
     }
 
     const installButton = document.getElementById('install-button') as HTMLButtonElement;
+    const searchButton = document.getElementById('search-button') as HTMLButtonElement;
     installButton.disabled = true;
+    searchButton.disabled = true;
 
     const progressWrapper = document.getElementById('progressWrapper')!;
     progressWrapper.classList.remove('d-none');
