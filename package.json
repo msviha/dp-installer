@@ -9,7 +9,7 @@
   },
   "build": {
     "appId": "com.tvoje.firma.installer",
-    "productName": "dp-installer",
+    "productName": "DarkParadiseInstaller",
     "directories": {
       "output": "release"
     },
@@ -19,7 +19,11 @@
       "package.json"
     ],
     "win": {
-      "target": "portable"
+      "target": "portable",
+      "icon": "dist/app/assets/dp.ico"
+    },
+    "portable": {
+      "artifactName": "DarkParadiseInstaller.exe"
     }
   },
   "devDependencies": {
