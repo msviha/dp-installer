@@ -1,8 +1,7 @@
 import {app, BrowserWindow, ipcMain, dialog} from 'electron';
 import * as https from 'https';
 import * as fs from 'fs';
-
-const createDesktopShortcut = require('create-desktop-shortcuts');
+import * as ws from 'windows-shortcuts';
 import * as path from 'path';
 import extract from 'extract-zip';
 
@@ -101,26 +100,33 @@ ipcMain.handle('save-file', (event, path: string, content: string): void => {
     fs.writeFileSync(path, content, 'utf8');
 })
 
-ipcMain.handle('create-shortcuts', async (event, folder: string) => {
+ipcMain.handle('create-shortcuts', async (_event, folder: string) => {
+    const desktop = path.join(process.env.USERPROFILE || '', 'Desktop');
+
+    // Orion Launcher
     const orionExePath = path.join(folder, 'Ultima Online DP', 'Orion Launcher', 'OrionLauncher64.exe');
-    createDesktopShortcut({
-        windows: {
-            filePath: orionExePath,
-            name: 'Orion Launcher (DP)',
-            comment: 'Spustit Dark Paradise přes Orion Launcher',
-            icon: orionExePath,
-            workingDirectory: path.dirname(orionExePath),
-        }
+    const orionShortcutPath = path.join(desktop, 'Orion Launcher (DP).lnk');
+
+    ws.create(orionShortcutPath, {
+        target: orionExePath,
+        workingDir: path.dirname(orionExePath),
+        desc: 'Spustit Dark Paradise přes Orion Launcher',
+        icon: orionExePath
+    }, err => {
+        if (err) console.error('Chyba při vytváření Orion zástupce:', err);
     });
+
+    // UOAM s argumentem
     const uoamExePath = path.join(folder, 'Ultima Online DP', 'uoam_Orion.exe');
-    createDesktopShortcut({
-        windows: {
-            filePath: uoamExePath,
-            name: 'UOAM (DP)',
-            comment: 'Spustit UOAM pro Orion',
-            arguments: '-q',
-            icon: uoamExePath,
-            workingDirectory: path.dirname(uoamExePath),
-        }
+    const uoamShortcutPath = path.join(desktop, 'UOAM (DP).lnk');
+
+    ws.create(uoamShortcutPath, {
+        target: uoamExePath,
+        args: '-q',
+        workingDir: path.dirname(uoamExePath),
+        desc: 'Spustit UOAM pro Orion',
+        icon: uoamExePath
+    }, err => {
+        if (err) console.error('Chyba při vytváření UOAM zástupce:', err);
     });
 });

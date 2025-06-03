@@ -23,7 +23,7 @@
       "icon": "dist/app/assets/dp.ico"
     },
     "portable": {
-      "artifactName": "DarkParadiseInstaller.exe"
+      "artifactName": "DarkParadiseInstaller-win-x64.exe"
     }
   },
   "devDependencies": {
@@ -33,8 +33,7 @@
     "typescript": "^5.4.0"
   },
   "dependencies": {
-    "create-desktop-shortcuts": "^1.11.1",
     "extract-zip": "^2.0.1",
-    "fast-xml-parser": "^5.2.3"
+    "windows-shortcuts": "^0.1.6"
   }
 }
