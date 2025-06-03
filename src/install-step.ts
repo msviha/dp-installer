@@ -72,7 +72,7 @@ export async function handleInstall(): Promise<void> {
     const progressWrapper = document.getElementById('progressWrapper')!;
     progressWrapper.classList.remove('d-none');
 
-    const zipUrl = 'https://drive.google.com/file/d/14B91B6u6sWLCLL0IbVIfPChsMgWU_SYP/view?usp=sharing';
+    const zipUrl = 'https://www.darkparadise.eu/soubory/uodp.zip';
     const success = await ipcRenderer.invoke('download-and-unzip', zipUrl, folder);
     if (success) {
         const normalizedPath = folder.replace(/\\/g, '/'); // windows format
