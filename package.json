@@ -23,7 +23,8 @@
       "icon": "dist/app/assets/dp.ico"
     },
     "portable": {
-      "artifactName": "DarkParadiseInstaller-win-x64.exe"
+      "artifactName": "DarkParadiseInstaller-win-x64.exe",
+      "requestExecutionLevel": "admin"
     }
   },
   "devDependencies": {

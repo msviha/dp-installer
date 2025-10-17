@@ -4,6 +4,7 @@ import * as fs from 'fs';
 import * as ws from 'windows-shortcuts';
 import * as path from 'path';
 import extract from 'extract-zip';
+import {execSync} from 'child_process'
 
 let mainWindow: BrowserWindow;
 
@@ -50,8 +51,10 @@ ipcMain.handle('download-and-unzip', async (event, zipUrl: string, targetDir: st
     return new Promise((resolve, reject) => {
         const file = fs.createWriteStream(tempZipPath);
 
-        https.get(zipUrl, response => {
+        const req = https.get(zipUrl, response => {
             if (response.statusCode !== 200) {
+                mainWindow?.webContents.send('error', `Chyba stahovani: HTTP ${response.statusCode}`);
+                console.log(`Chyba stahovani: HTTP ${response.statusCode}`);
                 reject(`HTTP ${response.statusCode}`);
                 return;
             }
@@ -69,6 +72,12 @@ ipcMain.handle('download-and-unzip', async (event, zipUrl: string, targetDir: st
 
             response.pipe(file);
 
+            file.on('error', err => {
+                mainWindow?.webContents.send('error', `Chyba ukladani: ${err.message}`);
+                console.log(`Chyba ukladani: ${err.message}`);
+                reject(err);
+            });
+
             file.on('finish', async () => {
                 if (!mainWindow?.isDestroyed()) {
                     mainWindow.webContents.send('status', 'Rozbaluji...');
@@ -82,6 +91,8 @@ ipcMain.handle('download-and-unzip', async (event, zipUrl: string, targetDir: st
                     mainWindow.webContents.send('status', 'Hotovo.');
                     resolve(true);
                 } catch (err) {
+                    mainWindow?.webContents.send('error', `Chyba rozbalovani: ${err}`);
+                    console.log(`Chyba rozbalovani: ${err}`);
                     reject(err);
                 }
             });
@@ -89,6 +100,19 @@ ipcMain.handle('download-and-unzip', async (event, zipUrl: string, targetDir: st
             fs.unlinkSync(tempZipPath);
             reject(err.message);
         });
+
+        req.on('error', err => {
+            // Zachytí chyby typu ECONNRESET, ENOTFOUND apod.
+            console.log(`Chyba při stahování: ${err.message}`);
+            mainWindow?.webContents.send('error', `Chyba při stahování: ${err.message}`);
+        });
+
+        req.on('timeout', () => {
+            console.log('Timeout při stahování souboru.');
+            req.destroy();
+            mainWindow?.webContents.send('error', 'Timeout při stahování souboru.');
+        });
+
     });
 });
 
@@ -129,4 +153,13 @@ ipcMain.handle('create-shortcuts', async (_event, folder: string) => {
     }, err => {
         if (err) console.error('Chyba při vytváření UOAM zástupce:', err);
     });
+});
+
+ipcMain.handle('uoam-registry', async (_event) => {
+    try {
+        execSync('reg add "HKCU\\SOFTWARE\\UOAM\\Files\\DP Dungy" /f');
+        execSync('reg add "HKCU\\SOFTWARE\\UOAM\\Files\\DP Mesta" /f');
+    } catch (error: any) {
+        mainWindow?.webContents.send('error', `Chyba při patchování UOAM registru: ${error.message}`);
+    }
 });

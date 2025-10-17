@@ -4,6 +4,10 @@ import {showFinalStep} from "./steps";
 
 (window as any).closeApp = () => ipcRenderer.send('close-app');
 
+ipcRenderer.on('error', (_, message) => {
+    alert(message);
+});
+
 // init
 initInstallStep();
 

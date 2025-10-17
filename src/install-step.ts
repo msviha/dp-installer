@@ -81,6 +81,7 @@ export async function handleInstall(): Promise<void> {
         await setOrionLauncherGamePaths(normalizedPath);
         await setOrionAssistScriptsPath(normalizedPath);
         await ipcRenderer.invoke('create-shortcuts', normalizedPath);
+        await ipcRenderer.invoke('uoam-registry');
         setTimeout(() => {
             const progressWrapper = document.getElementById('progressWrapper')!;
             progressWrapper.classList.add('d-none');
